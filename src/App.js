@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Meme from "./components/Meme";
+import MemeCard from "./components/Meme_card";
 function objectToQueryParams(obj) {
   const params = Object.entries(obj).map(([key, value]) => `${key}=${value}`);
   return "?" + params.join("&");
@@ -24,11 +25,7 @@ function App() {
     setBottomText(e.target.value);
   }
   if (meme) {
-    return (
-      <div>
-        <img src={meme} alt="some meme" />
-      </div>
-    );
+    return <MemeCard meme={meme} />;
   }
   return (
     <div className="App">
