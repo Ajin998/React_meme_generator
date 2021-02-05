@@ -1,7 +1,10 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import Meme from "./components/Meme";
 function App() {
   const [templates, setTemplates] = useState([]);
+  const [template, setTemplate] = useState(null);
+
   useEffect(() => {
     fetch("https://api.imgflip.com/get_memes").then((resp) =>
       resp.json().then((result) => setTemplates(result.data.memes))
@@ -9,25 +12,25 @@ function App() {
   });
   return (
     <div className="App">
-      <h1>Pick your Templates</h1>
-      {templates.map((template, index) => (
-        // <p>
-        //   <img
-        //     key={index}
-        //     src={template.url}
-        //     alt={template.name}
-        //     style={{ width: 200 }}
-        //     className="meme__images"
-        //   />
-        // </p>
-        <img
-          key={index}
-          src={template.url}
-          alt={template.name}
-          style={{ width: 200 }}
-          className="meme__images"
-        />
-      ))}
+      {template && (
+        <>
+          <h1>Text for the Meme</h1>
+          <Meme template={template} />
+        </>
+      )}
+      {!template && (
+        <>
+          <h1>Pick a template</h1>
+          {templates.map((template, index) => (
+            <Meme
+              template={template}
+              onClick={() => {
+                setTemplate(template);
+              }}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }
